@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather report</title>
+    <style>
+        body
+        {
+            background-image: url(3.webp);
+            background-size: cover;
+            font-family: 'Courier New', Courier, monospace;
+            background-repeat: no-repeat;
+            
+        }
+        .Wather
+        {
+            margin-left: 200px;
+            padding: 30px;
+            align-items: center;
+            background: none;
+        }
+        .weather
+        {
+            background-color: rgba(151, 154, 162, 0.68);
+            margin-left: 600px;
+            border: 10px;
+           
+        }
+        .in{
+            background-color: rgba(255, 255, 255, 0.438);
+            margin-left: 300px;
+            margin-right: 300px;
+            color: #fff;
+            height: 400px;
+            border: 10px;
+            border-radius: 20px;
+            padding: 50px;
+            justify-content: center;
+        }
+        .date
+        {
+            justify-content: center;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .sun
+        {
+            float: right;
+            border-radius: 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 200px;
+            height: 200px;
+            text-align: center;
+        }
+        button{
+            background-color: rgb(0, 0, 0);
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .input{
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            font-size: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 10px;
+            width: 400px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="Wather">
+        <center><h1 class="date"></h1>
+        <input class="input" type="text" placeholder="search city">
+        <button>search</button>
+        </center>
+    </div>
+    <div class="Weather">
+        
+        <div class="in">
+            <img class="sun" src="su/icons8-sun-250.png"  height="100px" width="100px">
+            <h2 class="city">Hoshiarpur</h2>
+            <h2 class="temp">26℃</h2>
+            <img src="su/icons8-humidity-100.png"  height="50px" width="50px">
+            <h2 class="humidity">30%<h2>Humidity</h2></h2>
+           
+            <img  src="su/icons8-wind-100.png"  height="50px" width="50px">
+            <h2 class="wind">5km/hr <h2>Wind</h2></h2>
+    </div>
+    </div>
+     <script>
+        const apikey = "1bd2629c5a8dab61cb09d310f5f67a56"
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q="
+        const city = document.querySelector(".input");
+        const btn = document.querySelector("button");
+        let img =document.querySelector(".sun");
+        async function checkWeather (city)
+        {
+            const response = await fetch(apiUrl + city + `&appid=${apikey}`)
+            
+            let data = await response.json();
+            console.log(data)
+           
+            document.querySelector(".temp").innerHTML = data.main.temp + "°C";
+            document.querySelector(".city").innerHTML = data.name;
+            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+            document.querySelector(".wind").innerHTML = data.wind.speed + "km/hr";
+            if(data.weather[0].main=="Smoke")
+            {
+                img.src="su/icons8-fog-100.png";
+            }
+            else if(data.weather[0].main=="Cloud")
+            {
+                img.src="su/rain.png";
+            }
+            else if(data.weather[0].main=="Clear")
+            {
+                img.src="su/icons8-sun-250.png";
+            }
+          
+        }
+        btn.addEventListener("click",()=>
+            {
+             checkWeather(city.value);
+             })
+
+        var date = new Date()
+        document.querySelector(".date").innerHTML = date.toDateString();
+
+        
+    </script>
+</body>
+</html>
